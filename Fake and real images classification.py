@@ -27,7 +27,32 @@ validation_generator = test_datagen.flow_from_directory(
     batch_size=batch_size,
     class_mode='categorical')
 
-# Code for model - 
+# Code for model - Samir Patel - 21072112
+import tensorflow as tf
+from tensorflow.keras.models import Sequential, Model
+from tensorflow.keras.layers import Dropout, Flatten, Dense, Activation, Conv2D, MaxPooling2D
+
+def build_cnn():
+	model = Sequential()
+	model.add(Conv2D(nb_filters1, (conv1_size, conv1_size), input_shape=(img_width, img_height, 3)))
+	model.add(Activation("relu"))
+	model.add(MaxPooling2D(pool_size=(pool_size, pool_size)))
+
+	model.add(Conv2D(nb_filters2, (conv2_size, conv2_size)))
+	model.add(Activation("relu"))
+	model.add(MaxPooling2D(pool_size=(pool_size, pool_size)))
+
+	model.add(Conv2D(nb_filters3, (conv3_size, conv3_size)))
+	model.add(Activation("relu"))
+	model.add(MaxPooling2D(pool_size=(pool_size, pool_size)))
+
+	model.add(Flatten())
+	model.add(Dense(256))
+	model.add(Activation("relu"))
+	model.add(Dropout(0.4)) # increasing dropour ratio to combat overfitting
+	model.add(Dense(classes_num, activation='softmax'))
+
+	return model
 
 # Code for training a model - Bilal Habib - 21083834
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
