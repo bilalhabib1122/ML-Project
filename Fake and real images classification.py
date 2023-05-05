@@ -150,4 +150,40 @@ plt.show()
 scores = model.evaluate_generator(validation_generator, steps=42)
 print("Accuracy = ", scores[1])
 
-# Code for prediction - 
+# Code for Prediction - Vishal Patel - 21071843
+import tensorflow as tf
+import os
+import numpy as np
+from tensorflow.keras.preprocessing.image import ImageDataGenerator, load_img, img_to_array
+from tensorflow.keras.models import Sequential, load_model
+from tensorflow import keras
+import cv2
+
+img_width, img_height = 64, 64
+model_path = './models3/galaxy_classifier_model.h5'
+model_weights_path = './models3/galaxy_classifier_weights.h5'
+model = load_model(model_path)
+model.load_weights(model_weights_path)
+# Test saved model
+loaded_model = tensorflow.keras.models.load_model('./tf_models3')
+loaded_model.summary()
+
+img_path = "./Group_Project_Data/Valid/Real/img_5.png" # path to a real galaxy image
+
+# Load and preprocess the new sample image
+img = cv2.imread(img_path)
+img = cv2.resize(img, (64, 64))
+img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+img = img / 255.0
+img = np.expand_dims(img, axis=0)
+
+# Perform inference on the new sample image
+predictions = model.predict(img)
+
+# Print the predicted class
+predicted_class = np.argmax(predictions, axis=1)
+print(predicted_class)
+
+class_names = ['fake', 'real']
+predicted_class_name = class_names[predicted_class[0]]
+print(f"The model thinks that image belongs to ==> '{predicted_class_name}' class.")
